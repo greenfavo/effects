@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>深入理解图形变换</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=1000;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        // 状态设置
+        
+      context.fillStyle="red";
+    	context.lineWidth=5;
+    	context.strokeStyle="#058";
+
+        //变换矩阵
+        /*
+          [a,c,e] 默认： 1 0 0
+          [b,d,f]        0 1 0
+          [0,0,1]        0 0 1
+           a,d水平，垂直缩放
+           b,c水平，垂直倾斜
+           e,f水平，垂直位移
+        */
+
+       context.save();
+       // transform(a,b,c,d,e,f);
+       context.transform(2,-0.2,-0.2,1.5,50,100);
+       context.setTransform(1,0,0,1,100,100);//清空之前所有的tranform，重新设置transform
+       context.fillRect(50,50,300,300);
+       context.strokeRect(50,50,300,300);
+       context.restore();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

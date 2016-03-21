@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>圆弧</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        
+        arcTest(context,150,100,650,100,650,600,200);
+    }
+    function arcTest(context,x0,y0,x1,y1,x2,y2,R){
+       //arcTo(x1,y1,x2,y2,radius);//圆弧
+        context.beginPath();
+        context.moveTo(x0,y0);
+        context.arcTo(x1,y1,x2,y2,R);
+
+        context.lineWidth=6;
+        context.strokeStyle="red";
+        context.stroke();
+
+        //辅助参考线
+        context.beginPath();
+        context.moveTo(x0,y0);
+        context.lineTo(x1,y1);
+        context.lineTo(x2,y2);
+
+        context.lineWidth=2;
+        context.strokeStyle="gray";
+        context.stroke();
+
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+        //将自己的函数作为context的方法
+        CanvasRenderingContext2D.prototype.myfunction=function(){
+            this.beginPath();
+            this.moveTo(100,100);
+            this.lineTo(200,300);
+            this.stroke();
+        }
+
+        context.myfunction();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

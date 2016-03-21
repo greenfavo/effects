@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>加水印</title>
+    <style type="text/css">
+    body{
+        background: black;
+    }
+    #canvas,#watermark-canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    #watermark-canvas{
+        display: none;
+    }
+    #scale-range{
+        margin: 0 auto;
+        display: block;
+        width: 800px;
+    }
+    </style>
+	
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+    <!-- 滑动杆 -->
+    <input type="range" id="scale-range" min="0.5" max="3.0" step="0.01" value="1" />
+    <!-- 水印 -->
+    <canvas id="watermark-canvas"></canvas>
+
+    <script type="text/javascript">
+    var canvas=document.getElementById('canvas');
+    var context=canvas.getContext("2d");
+    var slider=document.getElementById('scale-range');
+    var image=new Image();
+
+    var watermarkCanvas=document.getElementById('watermark-canvas');
+    var watermarkContext=watermarkCanvas.getContext("2d");
+
+    window.onload=function(){
+        canvas.width=1200;
+        canvas.height=600;
+
+        var scale=slider.value;
+
+        image.src="images/3.jpg";
+        image.onload=function(){
+            // context.drawImage(image,0,0,canvas.width,canvas.height);
+            drawImageByScale(scale);
+
+            slider.onmousemove=function(){
+                scale=slider.value;
+                drawImageByScale(scale);
+            }
+        };
+        //绘制水印
+        watermarkCanvas.width=400;
+        watermarkCanvas.height=100;
+        
+        watermarkContext.font="bold 30px Arial";
+        watermarkContext.lineWidth=1;
+        watermarkContext.fillStyle="rgba(255,255,255,0.7)";
+        watermarkContext.textBaseline="middle";
+        watermarkContext.fillText("--BY xxx",20,50);
+        
+    }
+    //图像缩放，从目的点开始绘制
+    function drawImageByScale(scale){
+        var imageWidth=canvas.width*scale;
+        var imageHeight=canvas.height*scale;
+
+        var dx=canvas.width/2-imageWidth/2;
+        var dy=canvas.height/2-imageHeight/2;
+
+        context.clearRect(0,0,canvas.width,canvas.height);
+        context.drawImage(image,dx,dy,imageWidth,imageHeight);
+        
+        //绘制水印
+        // context.drawImage(watermarkCanvas,canvas.width-watermarkCanvas.width,canvas.height-watermarkCanvas.height);
+        var dx2=canvas.width/2;
+        var dy2=canvas.height/2+imageHeight/2-watermarkCanvas.height;
+
+        context.drawImage(watermarkCanvas,dx2,dy2,watermarkCanvas.width,watermarkCanvas.height)
+    }
+    </script>
+</body>
+</html>

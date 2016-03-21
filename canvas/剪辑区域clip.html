@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>剪辑区域</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+        
+        context.save();
+        context.beginPath();
+        context.fillStyle="black";
+        context.fillRect(0,0,800,800);
+        
+        context.beginPath();
+        context.arc(400,400,150,0,Math.PI*2);
+        context.fillStyle="white";
+        context.fill();
+        context.clip();
+
+        context.font="bold 150px Arial";
+        context.textAlign="center";
+        context.textBaseline="middle";
+        context.fillStyle="#058";
+        context.fillText("CANVAS",canvas.width/2,canvas.height/2);
+        context.restore();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

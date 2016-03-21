@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>画直线</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        // 状态设置
+    	context.moveTo(100,100);
+    	context.lineTo(700,700);
+    	context.lineTo(100,700);
+    	context.lineWidth=10;
+    	context.strokeStyle="green";
+
+        // 绘制
+    	context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

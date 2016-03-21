@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绘制图像</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+    <script type="text/javascript">
+    var canvas=document.getElementById('canvas');
+    var context=canvas.getContext("2d");
+    var image=new Image();
+
+    window.onload=function(){
+        canvas.width=1200;
+        canvas.height=600;
+
+        // context.drawImage(image|canvas,sx,sy,sw,sh,dx,dy,dw,dh);
+        //sx,sy为源图像上的坐标
+        //dx,dy为目的地起始绘制坐标,设置了dw,dh会自动缩放图像
+        image.src="images/3.jpg";
+        image.onload=function(){
+            // context.drawImage(image,0,0,canvas.width,canvas.height);
+            // context.drawImage(image,300,200,400,300,200,200,400,400);
+            context.drawImage(image,0,0);
+        }
+        
+    }
+    </script>
+</body>
+</html>

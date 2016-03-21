@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>画多边形</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        // 状态设置
+        context.beginPath();
+    	context.moveTo(100,350);
+        context.lineTo(500,350);
+        context.lineTo(500,200);
+        context.lineTo(700,400);
+        context.lineTo(500,600);
+        context.lineTo(500,450);
+        context.lineTo(100,450);
+        context.closePath();
+
+    	context.lineWidth=10;
+        context.fillStyle="yellow";//先填充再描边
+        context.fill();
+        context.strokeStyle="green";
+        
+    	context.stroke();
+
+
+        drawRect(context,100,100,200,100,10,"#1dd8b8","#0fd1b0");
+    }
+    //绘制矩形
+    function drawRect(cxt,x,y,width,height,borderWidth,borderColor,fillColor){
+        cxt.beginPath();
+        cxt.moveTo(x,y);
+        cxt.lineTo(x+width,y);
+        cxt.lineTo(x+width,y+height);
+        cxt.lineTo(x,y+height);
+
+        cxt.closePath();
+
+        cxt.lineWidth=borderWidth;
+        cxt.fillStyle=fillColor;
+        cxt.strokeStyle=borderColor;
+
+        cxt.fill();
+        cxt.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>椭圆</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+        if (context.ellipse) {//只有chrome支持
+            context.ellipse(400,400,300,200,0,0,Math.PI*2);//x,y,r1,r2,start,start,end
+
+            context.stroke();
+        }else{
+            alert("no ellipse");
+        }
+        
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

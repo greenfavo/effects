@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>五角星</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        context.lineWidth=10;
+        context.lineJoin="bevel";//斜接效果
+        context.lineJoin="round";//圆角
+        context.lineJoin="miter";//默认值，尖角
+        context.miterLimit=20;//默认为10，超过限制值就以bevel显示
+
+        drawStar(context,150,300,400,400,30);
+    }
+
+    //绘制五角星
+    function drawStar(context,r,R,x,y,rot){//rot为旋转角度
+        context.beginPath();
+        for (var i = 0; i < 5; i++) {
+            //大圆半径为300，400是起点偏移量,/180是角度转弧度计算
+            context.lineTo(Math.cos((18+i*72-rot)/180*Math.PI)*R+x,
+                           -Math.sin((18+i*72-rot)/180*Math.PI)*R+y);
+
+            //小圆半径为150，起始内角是54deg，每个内角度增加72deg
+            context.lineTo(Math.cos((54+i*72-rot)/180*Math.PI)*r+x,
+                           -Math.sin((54+i*72-rot)/180*Math.PI)*r+y);
+        };
+        context.closePath();
+
+        context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

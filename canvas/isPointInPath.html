@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>与canvas交互</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    var balls=[];
+
+    window.onload=function(){
+        var canvas=document.getElementById('canvas');
+    	canvas.width=800;
+    	canvas.height=800;
+
+        var context=canvas.getContext("2d");
+        for(var i=0;i<10;i++){
+           var aBall={
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
+            r:Math.random()*50+20
+           };
+           balls[i]=aBall;
+        }
+        draw(context);
+        // canvas.addEventListener("mouseup",detect(context,event));
+        canvas.onmousemove=function(){
+            detect(context,event)
+        };
+        
+    }
+
+    function draw(context){
+        context.clearRect(0,0,800,800);
+        for (var i = 0; i < balls.length; i++) {
+            context.beginPath();
+            context.arc(balls[i].x,balls[i].y,balls[i].r,0,Math.PI*2);
+            
+            context.fillStyle="#058";
+            context.fill();
+        };
+    }
+
+    function detect(context,event){
+        var canvas=context.canvas;
+        //鼠标指针相对canvas画布的位置
+        var x=event.clientX-canvas.getBoundingClientRect().left;//减去画布的距离
+        var y=event.clientY-canvas.getBoundingClientRect().top;
+
+        for (var i = 0; i < balls.length; i++) {
+            context.beginPath();
+            context.arc(balls[i].x,balls[i].y,balls[i].r,0,Math.PI*2);
+
+            if (context.isPointInPath(x,y)) {
+                //如果鼠标指针在小球的路径上，就将小球变红
+                context.fillStyle="red";
+            }else{
+                context.fillStyle="#058";
+            }
+            context.fill();
+        };
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

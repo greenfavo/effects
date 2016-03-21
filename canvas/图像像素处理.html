@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图像像素</title>
+    <style type="text/css">
+    #canvasa,#canvasb{
+        /*margin:0 auto;*/
+        margin-left: 100px;
+        float: left;
+        display: block;
+        border:1px solid #ccc;
+    }
+    a{
+        text-align: center;
+        font-size: 30px;
+        text-decoration: none;
+        clear: both;
+        display: block;
+    }
+    </style>
+	
+</head>
+<body>
+	<canvas id="canvasa" width="500" height="320"></canvas>
+    <canvas id="canvasb" width="500" height="320"></canvas>
+    <a href="javascript:fillter();">Filler</a>
+
+
+    <script type="text/javascript">
+    var canvasa=document.getElementById('canvasa');
+    var contexta=canvasa.getContext("2d");
+
+    var canvasb=document.getElementById('canvasb');
+    var contextb=canvasb.getContext("2d");
+
+    var image=new Image();
+
+    window.onload=function(){
+    
+        image.src="images/3.jpg";
+        image.onload=function(){
+            
+            contexta.drawImage(image,0,0,canvasa.width,canvasa.height);
+        }
+        
+    }
+    //滤镜处理
+    function fillter(){
+        var imageData=contexta.getImageData(0,0,canvasa.width,canvasb.height);
+
+        contextb.putImageData(imageData,0,0,0,0,canvasb.width,canvasb.height);
+    }
+    </script>
+</body>
+</html>

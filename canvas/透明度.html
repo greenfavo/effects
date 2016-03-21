@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>透明度</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        context.globalAlpha=0.7;//设置全局透明度
+        //重叠部分遮挡效果，默认后绘制的图形全部遮挡先绘制的
+        //destination-over先覆盖后
+        gloabalCompositeOperation="copy";
+
+        //随机生成100个圆
+        for (var i = 0; i < 100; i++) {
+            var R=Math.floor(Math.random()*255);
+            var G=Math.floor(Math.random()*255);
+            var B=Math.floor(Math.random()*255);
+
+            context.fillStyle="rgb("+R+","+G+","+B+")";
+
+            context.beginPath();
+            context.arc(Math.random()*canvas.width,Math.random()*canvas.height,Math.random()*100,0,Math.PI*2);
+            context.fill();    
+        };
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

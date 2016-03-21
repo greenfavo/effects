@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>阴影</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        context.fillStyle="#058";
+        context.shadowColor="gray";
+        context.shadowOffsetX=10;
+        context.shadowOffsetY=20;
+        context.shadowBlur=5;//模糊度
+
+        // context.fillRect(200,200,400,400);
+        context.font="bold 40px Arial";
+        context.fillText("CANVAS",100,200);
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

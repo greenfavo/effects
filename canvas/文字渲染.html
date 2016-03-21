@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文字渲染</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+        //font可以使用css里全部的的字体样式属性，包括@font-face
+        context.fillStyle="green";
+        context.font="bold 40px Arial";
+        context.save();
+        context.font="bold oblique 40px Arial";
+        context.fillText("canvas测试",100,100);
+        
+        context.lineWidth=1;
+        context.font="italic bold 40px Arial";
+        context.strokeStyle="#058";
+        context.strokeText("欢迎大家学习canvas!",100,200);//描边镂空效果
+
+        context.fillText("欢迎大家学习canvas绘图接口详解",100,300,200);//最后一个参数为最大字符长度，单位为px
+        //还可以使用渐变色，图片等作为字体填充背景
+
+        context.font="bold small-Cap 40px Arial ";
+        context.fillStyle="green";
+        context.fillText("canvas测试",100,400);
+        
+        context.restore();
+
+        context.save();
+        context.textAlign="left";
+        context.textBaseline="top";
+        context.fillText("left",400,450);
+
+        context.textAlign="center";
+        context.textBaseline="middle";
+        context.fillText("center",400,500);
+
+        context.textAlign="right";
+        context.textBaseline="bottom";
+        var textwidth=context.measureText("right").width;//文字度量
+        context.fillText("right",400,550);
+        context.fillText("以上文本的长度是"+textwidth+"px",400,600);
+
+        context.restore();
+
+        //基准线
+        context.strokeStyle="#888";
+        context.moveTo(400,0);
+        context.lineTo(400,800);
+        context.stroke();
+
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>画折线</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        // 状态设置
+        context.rect(100,100,200,120);//x,y,width,height
+
+    	context.lineWidth=10;
+    	// context.strokeStyle="green";
+        // 绘制
+    	context.stroke();
+
+        context.fillStyle="rgba(100,43,100,0.2)";
+        context.fillRect(400,0,100,200);//利用已设置的填充色绘制
+
+        context.strokeRect(600,0,100,100);//线条边框绘制
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

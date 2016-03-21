@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas api</title>	
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+	<script type="text/javascript">
+    var canvas=document.getElementById('canvas');
+    canvas.width=1000;
+    canvas.height=700;
+
+    var context=canvas.getContext("2d");
+    
+    context.beginPath();
+    context.moveTo(400,400);
+    context.bezierCurveTo(500,200,600,600,800,400);
+    context.stroke();
+    
+    context.beginPath();
+    context.fillStyle='green';
+ 
+	context.shadowColor='gray';
+	context.shadowOffsetX=10;//偏移量
+	context.shadowOffsetY=20;
+	context.shadowBlur=5;//模糊度
+
+	context.fillRect(0,0,300,200);
+	</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弯月</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+    <script src="canvas.js"></script>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        /*context.arc(400,400,300,0.5*Math.PI,1.5*Math.PI,true);
+        context.moveTo(400,100);
+        context.arcTo(1200,400,400,700,(400-100)*dis(400,100,1200,400)/(1200-400));
+
+    	context.stroke();*/
+        fillMoon(context,2,400,400,300,30);
+    }
+    function fillMoon(cxt,d,x,y,R,rot,/*optional*/fillColor){
+        cxt.save();
+        cxt.translate(x,y);
+        cxt.rotate(rot*Math.PI/180);//旋转角度
+        cxt.scale(R,R);//缩放比例
+        pathMoon(cxt,d);//d为控制点横坐标
+        cxt.fillStyle=fillColor||"#fb5";
+        cxt.fill();
+        cxt.restore();
+    }
+    function pathMoon(cxt,d){
+        cxt.beginPath();
+        cxt.arc(0,0,1,0.5*Math.PI,1.5*Math.PI,true);
+        cxt.moveTo(0,-1);
+        cxt.arcTo(d,0,0,1,dis(0,-1,d,0)/d);
+        cxt.closePath();
+    }
+
+    //两点间距离
+    function dis(x1,y1,x2,y2){
+        return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

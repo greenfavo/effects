@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>线性渐变</title>
+    <style type="text/css">
+    #canvas{
+        border:1px solid #ccc;
+        margin: 0 auto;
+        display: block;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        var linearGrad=context.createLinearGradient(200,200,400,400);//渐变xstart,ystart,xend,yend
+        linearGrad.addColorStop(0.0,"#fff");
+        linearGrad.addColorStop(0.5,"green");
+        linearGrad.addColorStop(0.75,"yellow");
+        linearGrad.addColorStop(1.0,"#000");
+
+        context.fillStyle=linearGrad;
+        context.fillRect(200,200,600,600);
+
+
+        // 绘制
+    	// context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

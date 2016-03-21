@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>贝塞尔曲线</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+        context.beginPath();
+        context.arc(400,400,300,0.5*Math.PI,1.5*Math.PI,true);
+        context.moveTo(400,100);//起点
+        context.quadraticCurveTo(800,400,400,700);//二次贝塞尔曲线,1个控制点，终点
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(0,200);
+        context.bezierCurveTo(50,0,150,300,300,200);//三次贝塞尔曲线，2个控制点
+
+        context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

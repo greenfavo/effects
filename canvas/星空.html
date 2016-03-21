@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>星空</title>
+    <style type="text/css">
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #canvas{
+        margin: 0 auto;
+        display: block;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=700;
+
+    	var context=canvas.getContext("2d");
+        context.fillStyle="black";
+        context.fillRect(0,0,canvas.width,canvas.height);
+
+        for (var i = 0; i < 200; i++) {
+          var r=Math.random()*5+5;
+          var x=Math.random()*canvas.width;
+          var y=Math.random()*canvas.height;
+          var a=Math.random()*360;//随机旋转角度
+          drawStar(context,x,y,r/2.0,r,a);
+        }
+    }
+
+    //绘制五角星
+    function drawStar(context,x,y,r,R,rot){//rot为旋转角度
+        context.beginPath();
+        for (var i = 0; i < 5; i++) {
+            //大圆半径为300，400是起点偏移量,/180是角度转弧度计算
+            context.lineTo(Math.cos((18+i*72-rot)/180*Math.PI)*R+x,
+                           -Math.sin((18+i*72-rot)/180*Math.PI)*R+y);
+
+            //小圆半径为150，起始内角是54deg，每个内角度增加72deg
+            context.lineTo(Math.cos((54+i*72-rot)/180*Math.PI)*r+x,
+                           -Math.sin((54+i*72-rot)/180*Math.PI)*r+y);
+        };
+        context.closePath();
+
+        context.fillStyle="#fb3";
+        context.strokeStyle="#fb5";
+        context.lineWidth=3;
+        context.lineJoin="round";
+        
+        context.fill();
+        context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

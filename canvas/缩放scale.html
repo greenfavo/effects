@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>缩放</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        context.lineWidth=5;
+
+        context.save();
+        context.scale(1,1);
+        context.strokeRect(50,50,200,200);
+        context.restore();
+
+        context.save();
+        context.scale(2,2);
+        context.strokeRect(50,50,200,200);
+        context.restore();
+
+        context.save();
+        context.scale(3,3);
+        context.strokeRect(50,50,200,200);
+        context.restore();
+
+    	context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

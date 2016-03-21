@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>线条帽子</title>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d"); 
+        //两条参考线
+        context.beginPath();
+        context.moveTo(100,0);
+        context.lineTo(100,700);
+        context.stroke(); 
+
+        context.beginPath();
+        context.moveTo(700,0);
+        context.lineTo(700,700);
+        context.stroke();       
+
+    	context.lineWidth=50;
+    	context.strokeStyle="green";
+
+        context.beginPath();
+        context.moveTo(100,200);
+        context.lineTo(700,200);
+        context.lineCap="butt";//默认值
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(100,400);
+        context.lineTo(700,400);
+        context.lineCap="round";//只能用于线条结尾处，不能用于连接处
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(100,600);
+        context.lineTo(700,600);
+        context.lineCap="square";
+        context.stroke();
+
+        // 绘制
+    	context.stroke();
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>

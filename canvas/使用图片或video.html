@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>fillStyle</title>
+    <style type="text/css">
+    #canvas{
+        margin:0 auto;
+        display: block;
+        border:1px solid #ccc;
+    }
+    </style>
+	<script type="text/javascript">
+    window.onload=function(){
+    	var canvas=document.getElementById('canvas');
+
+    	canvas.width=800;
+    	canvas.height=800;
+
+    	var context=canvas.getContext("2d");
+
+        //fillStyel=color,gradient,image,canvas,video
+
+        // context.createPattern(img|canvas|video,repeat-style);
+        //图片作为背景
+        var backgroundImage=new Image();
+        backgroundImage.src="images/1.jpg";
+        backgroundImage.onload=function(){
+            var pattern=context.createPattern(backgroundImage,"repeat-y");
+            context.fillStyle=pattern;
+            context.fillRect(0,0,800,800);
+        }
+         // var backCanvas=createBackgroundCanvas();
+         // var pattern=context.createPattern(backCanvas,"repeat");
+         // context.fillStyle=pattern;
+         // context.fillRect(0,0,800,800);
+
+    }
+
+    function createBackgroundCanvas(){
+        var backCanvas=document.createElement("canvas");
+        backCanvas.width=100;
+        backCanvas.height=100;
+        var backCanvasContext=backCanvas.getContext("2d");
+        drawStar(backCanvasContext,50,50,50,0);
+        return backCanvas;
+    }
+
+    //绘制五角星
+    function drawStar(cxt,x,y,R,rot){//rot为旋转角度
+        cxt.save();//状态保存
+
+        cxt.translate(x,y);//将基坐标从(0,0)变换到(x,y)
+        cxt.rotate(rot/180*Math.PI);
+        cxt.scale(R,R);//放大一倍，会把所有带数值的参数都放大
+        starPath(cxt);
+
+        cxt.fillStyle="#fb3";
+       
+        cxt.fill();
+
+        cxt.restore();//状态恢复        
+    }
+    //一个标准星星
+    function starPath(cxt){
+       cxt.beginPath();
+        for (var i = 0; i < 5; i++) {
+            cxt.lineTo(Math.cos((18+i*72)/180*Math.PI),
+                           -Math.sin((18+i*72)/180*Math.PI));
+
+            cxt.lineTo(Math.cos((54+i*72)/180*Math.PI)*0.5,
+                           -Math.sin((54+i*72)/180*Math.PI)*0.5);
+        };
+        cxt.closePath(); 
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>
