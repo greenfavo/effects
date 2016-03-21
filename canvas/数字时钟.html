@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数字时钟</title>
+	<style type="text/css">
+    html,body,canvas{
+    	height: 100%;
+    }
+	</style>
+	<!-- 点阵矩阵 -->
+    <script src="digit.js"></script>
+	<script type="text/javascript">
+	// 全局变量
+    var WINDOW_WIDTH=1366;
+    var WINDOW_HEIGHT=768;
+    var RADIUS=8;
+    var MARGIN_TOP=60;
+    var MARGIN_LEFT=30;
+
+    var curShowTimeSeconds=0;
+
+    // 运动小球参数
+    var balls=[];
+    const colors=["#f07272","#23dcb5","#e9e06b","#17ac7d","#42bbe4","#d97de4","#e77e3c","#7ee432","#14a687","#1cc3aa"];
+
+    window.onload=function(){
+        //屏幕自适应
+        WINDOW_WIDTH=document.body.clientWidth;
+        WINDOW_HEIGHT=document.body.clientHeight;
+
+        MARGIN_LEFT=Math.round(WINDOW_WIDTH/10);
+        RADIUS=Math.round(WINDOW_WIDTH*4/5/108)-1;
+        MARGIN_TOP=Math.round(WINDOW_HEIGHT/5);
+
+    	var canvas=document.getElementById('canvas');
+    	var context=canvas.getContext("2d");
+    	canvas.width=WINDOW_WIDTH;
+    	canvas.height=WINDOW_HEIGHT;
+
+    	curShowTimeSeconds=getCurrentShowTimeSeconds();
+
+    	setInterval(function(){
+    		render(context);
+    		updateTime();
+    	},50);
+        
+    }
+    
+    function getCurrentShowTimeSeconds(){
+    	var curTime=new Date();
+    	var ret=curTime.getHours()*3600+curTime.getMinutes()*60+curTime.getSeconds();
+    	
+
+    	return ret;
+    }
+
+    //动画-时间变化
+    function updateTime(){
+       var nextShowTimeSeconds=getCurrentShowTimeSeconds();
+ 
+       var nextHours=parseInt(nextShowTimeSeconds/3600);
+       var nextMinutes=parseInt((nextShowTimeSeconds-nextHours*3600)/60);
+       var nextSeconds=nextShowTimeSeconds%60;
+
+       var curHours=parseInt(curShowTimeSeconds/3600);
+       var curMinutes=parseInt((curShowTimeSeconds-nextHours*3600)/60);
+       var curSeconds=curShowTimeSeconds%60;
+
+       if (nextSeconds!=curSeconds) {
+
+       	  if (parseInt(curHours/10)!=parseInt(nextHours/10)) {//如果小时十位不相同
+
+       	  	addBalls(MARGIN_LEFT+0,MARGIN_TOP,parseInt(curHours/10));
+       	  };
+       	  if (parseInt(curHours%10)!=parseInt(nextHours%10)) {//如果小时个位数不相同
+
+       	  	addBalls(MARGIN_LEFT+15*(RADIUS+1),MARGIN_TOP,parseInt(curHours/10));
+       	  };
+
+
+
+
+       	  if (parseInt(curMinutes/10)!=parseInt(nextMinutes/10)) {//如果分钟十位不相同
+
+       	  	addBalls(MARGIN_LEFT+39*(RADIUS+1),MARGIN_TOP,parseInt(curHours/10));
+       	  };
+       	  if (parseInt(curMinutes%10)!=parseInt(nextMinutes%10)) {//如果分钟个位数不相同
+
+       	  	addBalls(MARGIN_LEFT+54*(RADIUS+1),MARGIN_TOP,parseInt(curMinutes%10));
+       	  };
+
+
+
+       	  if (parseInt(curSeconds/10)!=parseInt(nextSeconds/10)) {//如果秒十位不相同
+
+       	  	addBalls(MARGIN_LEFT+78*(RADIUS+1),MARGIN_TOP,parseInt(curSeconds/10));
+       	  };
+       	  if (parseInt(curSeconds%10)!=parseInt(nextSeconds%10)) {//如果秒个位数不相同
+
+       	  	addBalls(MARGIN_LEFT+93*(RADIUS+1),MARGIN_TOP,parseInt(curSeconds%10));
+       	  };
+
+       	  curShowTimeSeconds=nextShowTimeSeconds;
+       };
+
+       updateBalls();
+       console.log(balls.length);
+    }
+
+    function updateBalls(){
+
+    	for(var i=0;i<balls.length;i++){
+
+    		balls[i].x+=balls[i].vx;
+
+    		balls[i].y+=balls[i].vy;
+
+    		balls[i].vy+=balls[i].g;
+    	
+	       if (balls[i].y>=WINDOW_HEIGHT-RADIUS) {//落地碰撞检测
+
+	       	  balls[i].y=WINDOW_HEIGHT-RADIUS;
+
+	       	  balls[i].vy=-balls[i].vy*0.75;
+	       };
+
+    	};
+
+    	//小球出了画布就删除它--性能优化
+    	var count=0;
+    	for (var i = 0; i < balls.length; i++) {
+    		if (balls[i].x+RADIUS>0&&balls[i].x-RADIUS<WINDOW_WIDTH) {//小球在画布内且不能越过画布
+                balls[count++]=balls[i];//这些小球是需要的
+    		};
+    	};
+
+    	while(balls.length>Math.min(300,count)){//最多保留300个小球
+    		balls.pop();//删除数组
+    	}
+    }
+
+    function addBalls(x,y,num){
+        
+        for (var i = 0; i < digit[num].length; i++) {
+
+        	for (var j = 0; j < digit[num][i].length; j++) {
+
+        		if(digit[num][i][j]==1){
+
+        			var aBall={
+
+        				x: x+j*2*(RADIUS+1)+(RADIUS+1),
+
+        				y: y+i*2*(RADIUS+1)+(RADIUS+1),
+
+        				g: 1.5+Math.random(),//加速度
+
+                        vx: Math.pow(-1,Math.ceil(Math.random()*1000))*4,//-1或+1
+
+                        vy:-10,//负值使之上抛
+
+                        color:colors[Math.floor(Math.random()*colors.length)]
+        			};
+
+        			balls.push(aBall);
+        		}
+        	};
+        };
+
+    }
+
+    function render(cxt){
+        cxt.clearRect(0,0,WINDOW_WIDTH,WINDOW_HEIGHT);//清空给定矩形的指定像素
+
+    	var hours=parseInt(curShowTimeSeconds/3600);
+    	var minutes=parseInt((curShowTimeSeconds-hours*3600)/60);
+    	var seconds=curShowTimeSeconds%60;
+
+        //时，数字的矩阵是10*7,占14位，加一位间距
+    	renderDigit(MARGIN_LEFT,MARGIN_TOP,parseInt(hours/10),cxt);//绘制十位
+
+    	renderDigit(MARGIN_LEFT+15*(RADIUS+1),MARGIN_TOP,parseInt(hours%10),cxt);//绘制个位数字
+    	renderDigit(MARGIN_LEFT+30*(RADIUS+1),MARGIN_TOP,10,cxt);//冒号
+        
+        
+        //分，冒号的矩阵是10*4,占8位，加1位间距
+    	renderDigit(MARGIN_LEFT+39*(RADIUS+1),MARGIN_TOP,parseInt(minutes/10),cxt);//绘制十位
+
+    	renderDigit(MARGIN_LEFT+54*(RADIUS+1),MARGIN_TOP,parseInt(minutes%10),cxt);//绘制个位
+
+    	renderDigit(MARGIN_LEFT+69*(RADIUS+1),MARGIN_TOP,10,cxt);//冒号
+
+
+        //秒
+    	renderDigit(MARGIN_LEFT+78*(RADIUS+1),MARGIN_TOP,parseInt(seconds/10),cxt);//绘制十位
+
+    	renderDigit(MARGIN_LEFT+93*(RADIUS+1),MARGIN_TOP,parseInt(seconds%10),cxt);//绘制个位数字
+
+    	//绘制滚落的小球
+    	for (var i = 0; i < balls.length; i++) {
+
+    		cxt.fillStyle=balls[i].color;
+
+    		cxt.beginPath();
+    		cxt.arc(balls[i].x,balls[i].y,RADIUS,0,2*Math.PI,true);
+    		cxt.closePath();
+
+    		cxt.fill();
+    	};
+
+    }
+
+    function renderDigit(x,y,num,cxt){
+    	cxt.fillStyle="rgb(0,102,153)";
+
+    	for (var i = 0; i < digit[num].length; i++) {
+    		for (var j = 0; j < digit[num][i].length; j++) {
+    			if(digit[num][i][j]==1){
+
+    				cxt.beginPath();
+    				cxt.arc(x+j*2*(RADIUS+1)+(RADIUS+1),y+i*2*(RADIUS+1)+(RADIUS+1),RADIUS,0,2*Math.PI);
+    				cxt.closePath();
+
+    				cxt.fill();
+    			}
+    		};
+    	};
+    }
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+</body>
+</html>
