@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>垂直二级菜单</title>
+	<style>
+	.navbar{
+		display: flex;
+	}
+	.main{
+		width: 200px;
+		border: 1px solid #ccc;
+		float: left; 
+	}
+	dl{
+		margin:0;
+	}
+	dt{
+		font-weight: bold;
+	}
+	dd{
+		font-size: 14px;
+	}
+	.main dd{
+		position: relative;
+		bottom: 15px;
+	}
+	.childList{
+		width: 200px;
+	}
+	.child{	
+		display: none;
+	}
+	.childList dd,.child{
+		margin:0;
+		padding: 0;
+	}
+
+	</style>
+</head>
+<body>
+	<div class="navbar">
+		<div class="main">
+			<dl class="category">
+				<dt>上衣</dt>
+				<dd>
+					<span>春上新</span>
+					<span>时尚套装</span>
+					<span>T恤</span>
+				</dd>
+			</dl>
+
+			<dl class="category">	
+				<dt>裙子</dt>
+				<dd>
+					<span>春季新品</span>
+					<span>连衣裙</span>
+					<span>蕾丝裙</span>
+				</dd>
+			</dl>
+
+			<dl class="category">
+				<dt>裤子</dt>
+				<dd>
+					<span>热销款</span>
+					<span>牛仔裤</span>
+					<span>打底裤</span>
+				</dd>
+			</dl>
+	    </div>
+
+		<div class="childList">
+			<dl class="child">
+				<dt>新品发布</dt>
+				<dd>
+				    <p>
+				    	<span>衬衫</span>
+						<span>牛仔外套</span>
+						<span>风衣</span>
+						<span>卫衣</span>
+				    </p>
+					<p>
+				    	<span>衬衫</span>
+						<span>牛仔外套</span>
+						<span>风衣</span>
+						<span>卫衣</span>
+				    </p>
+				</dd>
+			</dl>
+
+			<dl class="child">
+				<dt>新品发布</dt>
+				<dd>
+					<p>
+						<span>背带裙</span>
+						<span>长裙</span>
+						<span>短裙</span>
+						<span>连衣裙</span>
+					</p>
+					<p>
+						<span>背带裙</span>
+						<span>长裙</span>
+						<span>短裙</span>
+						<span>连衣裙</span>
+					</p>
+				</dd>
+			</dl>
+
+			<dl class="child">
+				<dt>新品发布</dt>
+				<dd>
+					<p>
+						<span>牛仔裤</span>
+						<span>铅笔裤</span>
+						<span>小脚裤</span>
+						<span>哈伦裤</span>
+					</p>
+					<p>
+						<span>牛仔裤</span>
+						<span>铅笔裤</span>
+						<span>小脚裤</span>
+						<span>哈伦裤</span>
+					</p>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	
+
+	<script>
+	var getClass=function(selector) {
+		 return document.getElementsByClassName(selector); 
+	};
+	var getSiblings=function (elem) {//获取兄弟节点
+		var a=[];
+		var p=elem.parentNode.children;
+		for (var i = 0; i < p.length; i++) {
+			if(p[i]!==elem){
+				a.push(p[i]);
+			}
+		};
+		return a;
+	}
+	var category=getClass('category');
+	var items=getClass('child');
+	var childList=getClass('childList')[0];
+	var navbar=getClass('navbar')[0];
+	var main=getClass('main')[0];
+	for (var i = 0; i < category.length; i++) {
+		category[i].onmouseenter=(function(j){//闭包传参
+			return function(){
+				childList.style.display='block';
+				childList.style.border='1px solid #ccc';
+				childList.style.borderLeft='none';
+
+				var siblings=getSiblings(items[j]);
+				//兄弟节点隐藏
+				siblings.forEach(function(ele,index){
+					ele.style.display = 'none';
+				});
+				//自身显现
+				items[j].style.display = 'block';
+			}
+		})(i);
+	};
+	navbar.onmouseleave=function(e){//移出导航区子菜单隐藏
+		childList.style.display='none';
+	}
+	</script>
+</body>
+</html>
