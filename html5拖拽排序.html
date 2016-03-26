@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽排序</title>
+	<style>
+	li{
+		list-style: none;
+        width: 200px;
+		height: 30px;
+		background-color: #F36974;
+		margin-bottom: 5px;
+        color: white;
+        cursor: move;
+	}
+    .over{
+        border: 3px dashed #000;
+    }
+	</style>
+</head>
+<body>
+	<ul class="dragList">
+		<li draggable='true'>hello</li>
+		<li draggable='true'>nancy</li>
+		<li draggable='true'>tom</li>
+		<li draggable='true'>green</li>
+		<li draggable='true'>blue</li>
+	</ul>
+
+	<script>
+	var dragList=document.getElementsByClassName('dragList')[0];
+    var oLi=document.getElementsByTagName('li');
+
+    var dragElement=null;//存储被拖拽元素的html
+    [].forEach.call(oLi,function (ele,index) {
+        //当拖拽元素开始被拖拽时
+        ele.addEventListener('dragstart', domdrugstart,false);
+        //当拖拽元素进入目标元素时
+        ele.addEventListener('dragenter', domdrugenter,false);
+        //当拖拽元素在目标元素上移动时
+        ele.addEventListener('dragover', domdrugover,false);
+        ele.addEventListener('dragleave',domdrugleave,false);
+
+        ele.addEventListener('drop',domdrop,false);
+        ele.addEventListener('dragend',domdrapend,false);
+    });
+    //当拖拽元素开始被拖拽时
+    function domdrugstart (e) {
+        e.target.style.opacity='0.5'; 
+
+        dragElement=this;
+
+        e.dataTransfer.effectAllowed='move';
+        e.dataTransfer.setData('text/html',this.innerHTML); 
+    };
+    //当拖拽元素进入目标元素时
+    function domdrugenter (e) {
+        e.target.classList.add('over');
+    };
+    //当拖拽元素在目标元素上移动时
+    function domdrugover (e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        };
+        e.dataTransfer.dropEffect='move';
+        return false;
+    };
+
+    //当拖拽元素离开目标区域时
+    function domdrugleave (e) {
+        e.target.classList.remove('over');
+    };
+    //放下，松开鼠标
+    function domdrop (e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        };
+
+        if (dragElement!=this) {
+            dragElement.innerHTML=this.innerHTML;//交换节点内容
+            this.innerHTML=e.dataTransfer.getData('text/html');
+        };
+        return false;
+    };
+    //拖拽结束
+    function domdrapend (e) {
+        [].forEach.call(oLi,function(ele,index){
+            ele.classList.remove('over');
+            ele.style.opacity='1';
+        });
+    };
+
+	</script>
+</body>
+</html>

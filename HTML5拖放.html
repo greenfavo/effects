@@ -37,20 +37,6 @@
 		e.dataTransfer.setData('Text',e.target.id);
 	}
 
-	function formatNum (num) {
-		var num=num+'';
-		if num.indexOf('.')!==-1) {
-			var dotIndex=str.indexOf('.');
-			var int_part=str.slice(0,dotIndex);//整数部分
-			var dot_part=str.slice(dotIndex,str.length-1);
-			
-			while (int_part.length>3) {
-				result+=','+int_part.slice(-3, 0);
-				int_part+=int_part.slice(0,num.length-3);
-			}
-			if (int_part) {};
-		};
-	}
 	</script>
 </body>
 </html>
