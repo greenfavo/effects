@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖放</title>
+	<style>
+	#box{
+		width: 300px;
+		height: 300px;
+		background:green;
+	}
+	#drag{
+		width: 200px;
+		height: 200px;
+		background: red;
+	}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+	<div id="drag" draggable='true'>我可以被拖拽哦</div>
+
+	<script>
+	var box=document.getElementById('box');
+	var drag=document.getElementById('drag');
+
+	box.ondrop=function (e) {
+		e.preventDefault();
+		var data=e.dataTransfer.getData('Text');
+		e.target.appendChild(document.getElementById(data));
+	}
+	box.ondragover=function (e) {
+		e.preventDefault();
+	}
+
+	drag.ondragstart=function (e) {
+		e.dataTransfer.setData('Text',e.target.id);
+	}
+
+	function formatNum (num) {
+		var num=num+'';
+		if num.indexOf('.')!==-1) {
+			var dotIndex=str.indexOf('.');
+			var int_part=str.slice(0,dotIndex);//整数部分
+			var dot_part=str.slice(dotIndex,str.length-1);
+			
+			while (int_part.length>3) {
+				result+=','+int_part.slice(-3, 0);
+				int_part+=int_part.slice(0,num.length-3);
+			}
+			if (int_part) {};
+		};
+	}
+	</script>
+</body>
+</html>

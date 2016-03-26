@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹出层</title>
+	<link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+	<style>
+	.page{
+		height: 1200px;
+		background-color: pink;
+	}
+	/*遮罩层*/
+	#mask{
+		background-color: rgba(0,0,0,0.75);
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 999;
+		display: none;
+	}
+	#openLayer{
+		width: 600px;
+		height: 400px;
+		background-color: green;
+		position: fixed;
+		left: 30%;
+		top: 30%;
+		z-index: 1000;
+		display: none;
+	}
+	#close{
+		font-size: 30px;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+	}
+	</style>
+</head>
+<body>
+	<div class="page">
+		<button id="btn">登录</button>
+	</div>
+	
+	<!-- 遮罩层 -->
+	<div id="mask">
+	</div>
+
+	<!-- 弹出层-->
+	<div id="openLayer">
+		<!-- 字体图标 -->
+		<i class="fa fa-close" id="close"></i>
+	</div>
+
+	<script>
+	var $=function (s) {
+		return document.querySelector(s); 
+	};
+	var oBtn=$('#btn');
+	var oMask=$('#mask');
+	var oClose=$('#close');
+	var oLayer=$('#openLayer');
+
+
+	oBtn.onclick=function (e) {
+
+		oMask.style.display='block';
+		oLayer.style.display='block';
+		//获取文档高度
+		var dHeight=document.documentElement.scrollHeight;
+		// 获取可视区高度
+		var vHeight=document.documentElement.clientHeight;
+		var vWidth=document.documentElement.clientWidth;
+
+		//获取弹出层的宽高
+		var layerHeight=oLayer.offsetHeight;//节点必须是显示的
+		var layerWidth=oLayer.offsetWidth;
+		
+		oMask.style.height=dHeight+'px';
+		// 弹出层居中
+		oLayer.style.left=(vWidth-layerWidth)/2+'px';
+		oLayer.style.top=(vHeight-layerHeight)/2+'px';
+	};
+
+	//点击遮罩和关闭按钮弹出层都消失
+	oMask.onclick=oClose.onclick=function (e) {
+		oMask.style.display='none';
+		oLayer.style.display='none';
+	};
+
+	</script>
+</body>
+</html>
