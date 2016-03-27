@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>鼠标拖放</title>
+	<style>
+	html,body,div{
+		margin: 0;
+		padding: 0;
+	}
+	#box{
+		width: 200px;
+		height: 200px;
+		background-color: green;
+		/*相对于它的初始位置定位*/
+		position: relative;
+		cursor: move;
+	}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+
+	<script>
+	var box=document.getElementById('box');
+	var mouseOffsetX=0;//偏移
+	var mouseOffsetY=0;
+
+	var isDraging=false;//是否可拖拽的标记
+
+	//鼠标按下，计算鼠标相对拖拽元素的左上角的坐标，并且标记为可拖拽
+	box.onmousedown=function (e) {
+		var e = e||window.event;
+		mouseOffsetX=e.pageX-box.offsetLeft;
+		mouseOffsetY=e.pageY-box.offsetTop;
+		isDraging=true;
+	};
+	//鼠标移动时，检测元素是否可移动，如果是，则更新元素位置到当前鼠标位置,减去第一步中获得的偏移
+	document.onmousemove=function (e) {
+		var e=e||window.event;
+
+		var moveX,moveY;
+
+		if (isDraging===true) {
+			moveX=e.pageX-mouseOffsetX;//元素新位置
+			moveY=e.pageY-mouseOffsetY;
+			console.log(e.pageX);
+
+			//范围限定
+			//moveX>0 && moveX<(页面最大宽度-元素宽度)
+			//moveY>0 && moveY<(页面最大高度-元素的高度)
+
+			var pageWidth=document.documentElement.clientWidth;
+			var pageHeight=document.documentElement.clientHeight;//可视区高度
+
+			var boxWidth=box.offsetWidth;
+			var boxHeight=box.offsetHeight;
+
+			var maxX=pageWidth-boxWidth;
+			var maxY=pageHeight-boxHeight;
+
+			moveX=Math.min(maxX,Math.max(0,moveX));
+			moveY=Math.min(maxY,Math.max(0,moveY));
+
+
+			box.style.left=moveX+'px';
+			box.style.top=moveY+'px';
+		};
+
+	}
+	//鼠标松开时，标记元素为不可拖拽
+	document.onmouseup=function() {
+		isDraging=false;
+	}
+	</script>
+</body>
+</html>
